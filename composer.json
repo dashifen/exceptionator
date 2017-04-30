@@ -1,0 +1,25 @@
+{
+	"name": "dashifen/exceptionator",
+	"description": "an error/exception handler that works just the way I like it",
+	"minimum-stability": "dev",
+	"type": "library",
+	"authors": [
+		{
+			"name": "David Dashifen Kees",
+			"email": "dashifen@dashifen.com",
+			"homepage": "https://dashifen.com",
+			"role": "developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Dashifen\\Exceptionator\\": "src/"
+		}
+	},
+	"require": {
+		"php": "^7.1",
+		"dashifen/database": "<2.0",
+		"dashifen/request": "^1.0"
+	},
+	"license": "MIT"
+}

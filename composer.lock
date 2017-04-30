@@ -1,0 +1,351 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "8f33ca7eac0dd14495926e280ca74be1",
+    "packages": [
+        {
+            "name": "aura/sql",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/auraphp/Aura.Sql.git",
+                "reference": "610ea8a7e66bb0c0fd9a2bf83e1d0f7c4f35692d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/auraphp/Aura.Sql/zipball/610ea8a7e66bb0c0fd9a2bf83e1d0f7c4f35692d",
+                "reference": "610ea8a7e66bb0c0fd9a2bf83e1d0f7c4f35692d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "pds/skeleton": "~1.0",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aura\\Sql\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aura.Sql Contributors",
+                    "homepage": "https://github.com/auraphp/Aura.Sql/contributors"
+                }
+            ],
+            "description": "A PDO extension that provides lazy connections, array quoting, query profiling, value binding, and convenience methods for common fetch styles. Because it extends PDO, existing code that uses PDO can use this without any changes to the existing code.",
+            "homepage": "https://github.com/auraphp/Aura.Sql",
+            "keywords": [
+                "mysql",
+                "pdo",
+                "pgsql",
+                "postgres",
+                "postgresql",
+                "sql server",
+                "sqlite",
+                "sqlserver",
+                "sqlsrv"
+            ],
+            "time": "2017-03-14 14:43:39"
+        },
+        {
+            "name": "dashifen/database",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/database.git",
+                "reference": "6256dede61680a023669b32b2ab6f7c0b07c6700"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/database/zipball/6256dede61680a023669b32b2ab6f7c0b07c6700",
+                "reference": "6256dede61680a023669b32b2ab6f7c0b07c6700",
+                "shasum": ""
+            },
+            "require": {
+                "aura/sql": "^3.0.0-alpha1",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "league/booboo": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "homepage": "https://dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "A wrapper around the extended PDO object from Aura/SQL using the interface that Dash prefers.",
+            "keywords": [
+                "aura",
+                "auraphp",
+                "database",
+                "pdo"
+            ],
+            "time": "2017-04-18T14:26:29+00:00"
+        },
+        {
+            "name": "dashifen/request",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/request.git",
+                "reference": "a77c03253c4036abb025503ad6da011a1375e727"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/request/zipball/a77c03253c4036abb025503ad6da011a1375e727",
+                "reference": "a77c03253c4036abb025503ad6da011a1375e727",
+                "shasum": ""
+            },
+            "require": {
+                "dashifen/session": "^1.0",
+                "php": "^7.1",
+                "zendframework/zend-diactoros": "^1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Request\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "homepage": "https://dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "a basic encapsulation of an http request from a visitor to a website",
+            "time": "2017-04-30T14:22:26+00:00"
+        },
+        {
+            "name": "dashifen/session",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dashifen/session.git",
+                "reference": "83af55e55853fb50511ad1ebcf690732e41b1e11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dashifen/session/zipball/83af55e55853fb50511ad1ebcf690732e41b1e11",
+                "reference": "83af55e55853fb50511ad1ebcf690732e41b1e11",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dashifen\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Dashifen Kees",
+                    "email": "dashifen@dashifen.com",
+                    "homepage": "https://dashifen.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "a PHP session handling object",
+            "keywords": [
+                "session"
+            ],
+            "time": "2017-04-21T15:49:39+00:00"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06 14:39:51"
+        },
+        {
+            "name": "psr/log",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-10-10 12:19:37"
+        },
+        {
+            "name": "zendframework/zend-diactoros",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-diactoros.git",
+                "reference": "aadde8887e33fc19d4ee201b8fdb53c18c1d3598"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/aadde8887e33fc19d4ee201b8fdb53c18c1d3598",
+                "reference": "aadde8887e33fc19d4ee201b8fdb53c18c1d3598",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "1.0"
+            },
+            "require-dev": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "phpunit/phpunit": "^4.6 || ^5.5",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev",
+                    "dev-develop": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Diactoros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://github.com/zendframework/zend-diactoros",
+            "keywords": [
+                "http",
+                "psr",
+                "psr-7"
+            ],
+            "time": "2017-04-12 19:29:56"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.1"
+    },
+    "platform-dev": []
+}
