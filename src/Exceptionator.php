@@ -185,9 +185,11 @@ class Exceptionator implements ExceptionatorInterface {
 		$message = "<ul>";
 		
 		foreach ($parts as $field => $value) {
-			$message .= "<li><strong>$field</strong>: ";
-			$message .= is_array($value) ? $this->getMessageDisplay($value) : $value;
-			$message .= "</li>";
+			if (!empty($value)) {
+				$message .= "<li><strong>$field</strong>: ";
+				$message .= is_array($value) ? $this->getMessageDisplay($value) : $value;
+				$message .= "</li>";
+			}
 		}
 		
 		return $message . "</ul>";
