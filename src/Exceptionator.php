@@ -127,7 +127,7 @@ class Exceptionator implements ExceptionatorInterface {
 		return $message;
 	}
 	
-	protected function getTrace(Throwable $exception): string {
+	protected function getTrace(Throwable $exception): array {
 		$traces = [];
 		
 		foreach ($exception->getTrace() as $trace) {
@@ -136,6 +136,13 @@ class Exceptionator implements ExceptionatorInterface {
 			// simply continue onto the next one.
 			
 			if (!isset($trace["file"]) || empty($trace["file"])) {
+				continue;
+			}
+			
+			// we also don't want this class to appear in the trace
+			// results because it's unnecessary.
+			
+			if (is_a($trace["class"], "Exceptionator")) {
 				continue;
 			}
 			
@@ -158,7 +165,7 @@ class Exceptionator implements ExceptionatorInterface {
 			$traces[] = $trace;
 		}
 		
-		return join('\n', $traces);
+		return $traces;
 	}
 	
 	protected function preparePost(array $post): array {
@@ -178,7 +185,7 @@ class Exceptionator implements ExceptionatorInterface {
 		$message = "<ul>";
 		
 		foreach ($parts as $field => $value) {
-			$message .= "<li><strong>$field</strong>";
+			$message .= "<li><strong>$field</strong>: ";
 			$message .= is_array($value) ? $this->getMessageDisplay($value) : $value;
 			$message .= "</li>";
 		}
