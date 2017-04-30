@@ -142,7 +142,7 @@ class Exceptionator implements ExceptionatorInterface {
 			// we also don't want this class to appear in the trace
 			// results because it's unnecessary.
 			
-			if (is_a($trace["class"], "Exceptionator")) {
+			if (is_a(($trace["class"] ?? ""), "Exceptionator")) {
 				continue;
 			}
 			
