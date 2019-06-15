@@ -7,6 +7,11 @@ use Dashifen\Request\RequestInterface;
 use ErrorException;
 use Throwable;
 
+/**
+ * Class Exceptionator
+ *
+ * @package Dashifen\Exceptionator
+ */
 class Exceptionator implements ExceptionatorInterface {
 	/**
 	 * @var bool
@@ -17,12 +22,24 @@ class Exceptionator implements ExceptionatorInterface {
 	 * @var RequestInterface
 	 */
 	protected $request;
-	
-	public function __construct(RequestInterface $request) {
+
+  /**
+   * Exceptionator constructor.
+   *
+   * If this object is being used as a part of Dash's overall framework of
+   * tools, then it's likely that it'll receive an object implementing the
+   * RequestInterface object here.  But if they or you are not using that
+   * framework, you can skip that.
+   *
+   * @param RequestInterface|null $request
+   */
+	public function __construct(?RequestInterface $request = null) {
 		$this->request = $request;
 	}
 	
 	/**
+   * handleErrors
+   *
 	 * engages or disengages error logging.  when engaging, this does so
 	 * at the specified error level using the E_* constants defined here:
 	 * https://secure.php.net/manual/en/errorfunc.constants.php
@@ -39,6 +56,8 @@ class Exceptionator implements ExceptionatorInterface {
 	}
 	
 	/**
+   * errorHandler
+   *
 	 * the error handler that is engaged (or disengaged) by the prior method.
 	 *
 	 * @param int    $severity
@@ -54,6 +73,8 @@ class Exceptionator implements ExceptionatorInterface {
 	}
 	
 	/**
+   * handleExceptions
+   *
 	 * determines if this object acts as the catcher of last resort for
 	 * exceptions not caught elsewhere.  if it is doing so, the $display
 	 * bool indicates whether the catch is silent or loud.
@@ -70,63 +91,126 @@ class Exceptionator implements ExceptionatorInterface {
 			restore_exception_handler();
 		}
 	}
-	
-	/**
-	 * the exception handler that the above method engages (or disengages).
-	 *
-	 * @param Throwable $exception
-	 *
-	 * @return void
-	 */
-	public function exceptionHandler(Throwable $exception): void {
+
+  /**
+   * exceptionHandler
+   *
+   * the exception handler that the above method engages (or disengages).
+   *
+   * @param Throwable $exception
+   * @param bool|null $display
+   *
+   * @return string
+   */
+	public function exceptionHandler(Throwable $exception, ?bool $display = null): string {
 		
-		// if this object is handling exceptions and one is thrown but
-		// not caught elsewhere, we end up here.  eventually, we want to
-		// use this object to log in a psr-3 sort of way, but we're not
-		// there yet.  so, if our displayExceptions property is false,
-		// we can actually simply return.  this is most likely used to
-		// simply silence exceptions in a production environment.  when
-		// we add logging capability to this object, then we won't be
-		// able to quit this early.
-		
-		if (!$this->displayExceptions) {
-			return;
-		}
-		
+		// the return type hint is sort of a lie.  usually, probably just echos
+    // our error message to the screen and dies, but sometimes we want it to
+    // return the error message.  that's where the second parameter comes in.
+    // if it's null, we do whatever the displayExceptions property tells us
+    // to do, but if it's not-null, we do what it specifies.
+
+    $display = $display ?? $this->displayExceptions;
 		$messageParts = $this->getMessage($exception);
 		$message = $this->getMessageDisplay($messageParts);
-		die($message);
+
+		// now, if we're displaying our message, we'll just die here.  but, if
+    // we're not, then we'll skip this if block and return.  that's why the
+    // type hint is a lie:  sometimes, maybe most of the time, we'll never
+    // actually get to the return statement.
+
+    if ($display) {
+      die($message);
+    }
+
+		return $message;
 	}
-	
+
+  /**
+   * getMessage
+   *
+   * Given an exception, extracts pertinent information from it in order
+   * to build a message that we can display on-screen or return from our
+   * scope.
+   *
+   * @param Throwable $exception
+   *
+   * @return array
+   */
 	protected function getMessage(Throwable $exception): array {
 		$message = [
 			"File" => $exception->getFile() . ":" . $exception->getLine(),
 			"Description" => $exception->getMessage(),
 			"Trace" => $this->getTrace($exception)
 		];
-		
-		$session = $this->request->getSessionObj();
-		if ($session->isAuthenticated()) {
-			$message["User"] = $session->get("USERNAME");
-		}
-		
+
+		// for their own convenience, Dash wrote this as a part of their
+    // framework of objects.  thus, if this exception that was thrown
+    // was one of their DatabaseExceptions, we can get the query that
+    // was being run as follows.
+
 		if ($exception instanceof DatabaseExceptionInterface) {
 			$message["Query"] = $exception->getQuery();
 		}
-		
-		$post = $this->request->getPost();
+
+		// similarly, they optionally connected this into their request objects.
+    // if that connection has been made, we'll do the following.  otherwise,
+    // we try to have some reasonable defaults for those of you who are not
+    // using that object.
+
+    $isRequestInterface = $this->request instanceof RequestInterface;
+
+    if ($isRequestInterface) {
+
+      // as long as our request property is a RequestInterface object,
+      // we'll grab the session object out of it and use that to determine
+      // information about the user that was logged in when this exception
+      // occurred.
+
+      $session = $this->request->getSessionObj();
+      if ($session->isAuthenticated()) {
+        $message["User"] = $session->get("USERNAME");
+      }
+    }
+
+    // if we're connected to a request object, we'll use it to get to our
+    // POST and FILES superglobals.  but, if we're not, then we'll just
+    // access them directly.
+
+		$post = $isRequestInterface
+      ? $this->request->getPost()
+      : $this->transformPost($_POST);
+
+		$files = $isRequestInterface
+      ? $this->request->getFiles()
+      : $this->transformFiles($_FILES);
+
+		// we only want to add the post and files information to our message
+    // if there's actually information here.  i.e., if there were no posted
+    // data, then we don't want a blank line in our message.  hence, the
+    // sizeof() calls here.
+
 		if (sizeof($post) > 0) {
-			$message["Post"] = $this->preparePost($post);
+			$message["Post"] = $post;
 		}
 		
-		$files = $this->request->getFiles();
 		if (sizeof($files) > 0) {
 			$message["Files"] = $files;
 		}
 		
 		return $message;
 	}
-	
+
+  /**
+   * getTrace
+   *
+   * Returns an array that contains the trace of the route through our
+   * software that this exception took on its way to us.
+   *
+   * @param Throwable $exception
+   *
+   * @return array
+   */
 	protected function getTrace(Throwable $exception): array {
 		$traces = [];
 		
@@ -167,8 +251,19 @@ class Exceptionator implements ExceptionatorInterface {
 		
 		return $traces;
 	}
-	
-	protected function preparePost(array $post): array {
+
+  /**
+   * transformPost
+   *
+   * This is sort of a stub, but since the password a person enters is often
+   * a part of the $_POST superglobal when posting data, we simply hide it.
+   * Other developers may want to hide other data as well.
+   *
+   * @param array $post
+   *
+   * @return array
+   */
+	protected function transformPost(array $post): array {
 		
 		// this is a simple function, but we've added it so that this object
 		// can be extended to manipulate other posted values that we might want
@@ -180,7 +275,32 @@ class Exceptionator implements ExceptionatorInterface {
 		
 		return $post;
 	}
-	
+
+  /**
+   * transformFiles
+   *
+   * This one is completely a stub in case extensions need to change the
+   * way we display the $_FILES superglobal.
+   *
+   * @param array $files
+   *
+   * @return array
+   */
+  protected function transformFiles (array $files): array {
+    return $files;
+	}
+
+  /**
+   * getMessageDisplay
+   *
+   * Given all the parts that we want to display as the message about our
+   * exception, this one builds it all together as a nested, unordered list.
+   * Note:  this method is recursive.
+   *
+   * @param array $parts
+   *
+   * @return string
+   */
 	protected function getMessageDisplay(array $parts): string {
 		$message = "<ul>";
 		
